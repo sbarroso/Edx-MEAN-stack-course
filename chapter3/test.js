@@ -4,6 +4,7 @@ var fs = require('fs');
 var status = require('http-status');
 var superagent = require('superagent');
 var wagner = require('wagner-core');
+var proxies = require('./proxies')();
 
 var URL_ROOT = 'http://localhost:3000';
 var PRODUCT_ID = '000000000000000000000001';
@@ -151,8 +152,9 @@ describe('Part 3 Assessment Tests', function() {
         assert.ifError(error);
 
         // Attempt to check out by posting to /api/v1/checkout
-        superagent.
-          post(url).
+        proxies.postSuperAgent(url).
+        //superagent.
+          //post(url).
           send({
             // Fake stripe credentials. stripeToken can either be
             // real credit card credentials or an encrypted token -

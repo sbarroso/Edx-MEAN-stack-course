@@ -16,4 +16,10 @@ module.exports = function(wagner) {
   wagner.factory('Config', function() {
     return JSON.parse(fs.readFileSync('./config.json').toString());
   });
+
+  wagner.factory('Stripe', function() {
+    return wagner.invoke(function(Config) {
+      return Stripe(Config.stripeKey);
+    });
+  });
 };

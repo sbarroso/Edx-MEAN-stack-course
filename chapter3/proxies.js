@@ -20,8 +20,17 @@ module.exports = function() {
 		}
 	};
 
+	var postSuperAgent = function(url) {
+		if (proxy) {
+			return superagent.post(url).proxy(proxy);
+		} else {
+			return superagent;
+		}
+	};
+
 	return {
 		initStripe: initStripe,
-		getSuperAgent: getSuperAgent
+		getSuperAgent: getSuperAgent,
+		postSuperAgent: postSuperAgent
 	};
 };

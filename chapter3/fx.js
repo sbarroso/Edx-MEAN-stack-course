@@ -1,5 +1,6 @@
 var superagent = require('superagent');
 var _ = require('underscore');
+var proxies = require('./proxies')();
 
 // TODO: Make this function depend on the Config service from `dependencies.js`
 // and use Config.openExchangeRatesKey instead of an environment variable.
@@ -13,7 +14,8 @@ module.exports = function() {
   };
 
   var ping = function(callback) {
-    superagent.get(url, function(error, res) {
+    proxies.getSuperAgent(url).end(function(error, res) {
+    //superagent.get(url, function(error, res) {
       // If error happens, ignore it because we'll try again in an hour
       if (error) {
         if (callback) {
