@@ -7,16 +7,19 @@ superagentProxy(superagent);
 module.exports = function() {
 
 	var proxy = process.env.http_proxy || 'http://alca.proxy.corp.sopra:8080';
+	proxy = undefined;
 
 	var initStripe = function(stripe) {
-		stripe.setHttpAgent(new ProxyAgent(proxy));
+		if (proxy) {
+			stripe.setHttpAgent(new ProxyAgent(proxy));
+		}	
 	};
 
 	var getSuperAgent = function(url) {
 		if (proxy) {
 			return superagent.get(url).proxy(proxy);
 		} else {
-			return superagent;
+			return superagent.get(url);
 		}
 	};
 
@@ -24,7 +27,7 @@ module.exports = function() {
 		if (proxy) {
 			return superagent.post(url).proxy(proxy);
 		} else {
-			return superagent;
+			return superagent.post(url);
 		}
 	};
 

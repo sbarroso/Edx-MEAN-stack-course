@@ -7,11 +7,11 @@ module.exports = function(wagner) {
 
   // TODO: Make Stripe depend on the Config service and use its `stripeKey`
   // property to get the Stripe API key.
-  wagner.factory('Stripe', function() {
-    return Stripe(process.env.STRIPE_API_KEY);
-  });
+  //wagner.factory('Stripe', function() {
+  //  return Stripe(process.env.STRIPE_API_KEY);
+  //});
 
-  wagner.factory('fx', fx);
+  //wagner.factory('fx', fx);
 
   wagner.factory('Config', function() {
     return JSON.parse(fs.readFileSync('./config.json').toString());
@@ -22,4 +22,11 @@ module.exports = function(wagner) {
       return Stripe(Config.stripeKey);
     });
   });
+
+  wagner.factory('fx', function() {
+    return wagner.invoke(function(Config) {
+      return fx(Config);
+    });
+  });
+
 };
