@@ -10,7 +10,9 @@
     "stripe": "3.3.4",
     "superagent": "1.2.0",
     "underscore": "1.5.2",
-    "wagner-core": "0.1.0"
+    "wagner-core": "0.1.0",
+    "superagent-proxy": "1.0.0",
+    "https-proxy-agent": "1.0.0"
   },
   "devDependencies": {
     "gulp": "3.8.11",

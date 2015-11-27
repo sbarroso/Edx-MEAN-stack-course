@@ -2,6 +2,7 @@ var assert = require('assert');
 var superagent = require('superagent');
 var _ = require('underscore');
 var fs = require('fs');
+var proxies = require('./proxies')();
 
 describe('Homework 3.4', function() {
   var Config = require('./config.json');
@@ -14,7 +15,8 @@ describe('Homework 3.4', function() {
       Config.facebookClientId + '?access_token=' +
       Config.facebookClientId + '|' + Config.facebookClientSecret;
 
-    superagent.get(url, function(error, res) {
+    proxies.getSuperAgent(url).end(function(error, res) {
+    //superagent.get(url, function(error, res) {
       if (error) {
         return done(error);
       }
@@ -32,6 +34,8 @@ describe('Homework 3.4', function() {
   it('can query stripe with provided key', function(done) {
     var stripe = require('stripe')(Config.stripeKey);
 
+    proxies.initStripe(stripe);
+
     stripe.account.retrieve(function(error, account) {
       assert.ifError(error);
       assert.ok(account.id);
@@ -43,7 +47,8 @@ describe('Homework 3.4', function() {
   it('can query open exchange rates with provided key', function(done) {
     var url = 'http://openexchangerates.org/api/latest.json?app_id=' +
       Config.openExchangeRatesKey;
-    superagent.get(url, function(error, res) {
+    proxies.getSuperAgent(url).end(function(error, res) {
+    //superagent.get(url, function(error, res) {
       assert.ifError(error);
 
       var results = JSON.parse(res.text);
