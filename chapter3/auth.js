@@ -20,7 +20,9 @@ function setupAuth(User, app, Config) {
       // TODO: and use the Config service here
       clientID: Config.facebookClientId,//process.env.FACEBOOK_CLIENT_ID,
       clientSecret: Config.facebookClientSecret,//process.env.FACEBOOK_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/auth/facebook/callback'
+      callbackURL: 'http://localhost:3000/auth/facebook/callback',
+      // Necessary for new version of Facebook graph API
+      profileFields: ['id', 'emails', 'name']
     },
     function(accessToken, refreshToken, profile, done) {
       if (!profile.emails || !profile.emails.length) {
@@ -51,7 +53,15 @@ function setupAuth(User, app, Config) {
 
   // Express routes for auth
   app.get('/auth/facebook',
-    passport.authenticate('facebook', { scope: ['email'] }));
+    function(req, res, next) {
+      var redirect = encodeURIComponent(req.query.redirect || '/');
+
+      passport.authenticate('facebook',
+        {
+          scope: ['email'],
+          callbackURL: 'http://localhost:3000/auth/facebook/callback?redirect=' + redirect
+        })(req, res, next);
+    });
 
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/fail' }),
