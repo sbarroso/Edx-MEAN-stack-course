@@ -6,8 +6,7 @@ superagentProxy(superagent);
 
 module.exports = function() {
 
-	var proxy = process.env.http_proxy || 'http://alca.proxy.corp.sopra:8080';
-	proxy = undefined;
+	var proxy = process.env.http_proxy;
 
 	var initStripe = function(stripe) {
 		if (proxy) {
