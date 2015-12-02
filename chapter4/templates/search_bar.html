@@ -4,6 +4,7 @@ TODO: this HTML should expose a search bar
 
 <div class="search-bar-wrapper">
   <div>
+    <input type="text" class="search-bar-input" ng-model="searchText"/>
     <!--
     TODO: input field here
     !-->
@@ -12,5 +13,6 @@ TODO: this HTML should expose a search bar
     <!--
     TODO: ngRepeat over results here
     !-->
+    <div ngRepeat="result in results" class="autocomplete-results"/>
   </div>
 </div>
