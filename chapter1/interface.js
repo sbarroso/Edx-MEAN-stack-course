@@ -3,7 +3,10 @@
  */
 exports.insert = function(db, doc, callback) {
   // TODO: implement
-  callback(null);
+  db.collection("movies").insert(doc, function(error, result) {
+  	callback(error, result);
+  });
+  
 };
 
 /*
@@ -14,5 +17,7 @@ exports.insert = function(db, doc, callback) {
  */
 exports.byDirector = function(db, director, callback) {
   // TODO: implement
-  callback(null, []);
+  db.collection("movies").find({director: director}).sort({title: 1}).toArray(function(error, result) {
+  	callback(error, result);
+  });
 };
