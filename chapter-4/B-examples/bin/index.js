@@ -5,7 +5,7 @@ exports.AddToCartController = function($scope, $http, $user, $timeout) {
     $user.user.data.cart.push(obj);
 
     $http.
-      put('/api/v1/me/cart', $user.user).
+      put('/api/v1/me/cart', { data: { cart: $user.user.data.cart } }).
       success(function(data) {
         $user.loadUser();
         $scope.success = true;
@@ -73,12 +73,12 @@ exports.CheckoutController = function($scope, $user, $http) {
     $http.
       put('/api/v1/me/cart', $user.user).
       success(function(data) {
-        $scoped.updated = true;
+        $scope.updated = true;
       });
   };
 
   // For checkout
-  Stripe.setPublishableKey('pk_test_KVC0AphhVxm52zdsM4WoBstU');
+  Stripe.setPublishableKey('pk_test_NCvEOFNgDW3VJfzBrvktDkL0');
 
   $scope.stripeToken = {
     number: '4242424242424242',
